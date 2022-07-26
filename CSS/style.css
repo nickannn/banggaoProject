@@ -1,0 +1,186 @@
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+html {
+    height: 100%;
+}
+
+header {
+    z-index: 1;
+    height: 50px;
+    display: flex;
+    align-items: center;
+    background-color: rgba(0,0,0,0.6);
+    color: #FFF;
+    padding: 5px;
+    position: fixed;
+    width: 100%;
+}
+
+.hidden {
+    display: none;
+}
+
+.header--logo {
+    height: 38px;
+    margin-left: 15px;
+    margin-right: 10px;
+}
+
+.header--title {
+    font-size: 1.3em;
+    margin-right: auto;
+}
+
+.nav--search {
+    height: 30px;
+}
+
+nav > ul {
+    list-style: none;
+    display: flex;
+    align-items: center;
+}
+
+nav li {
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+nav li:hover {
+    opacity: 0.8;
+}
+
+.search--bar {
+    position: absolute;
+    right: 10px;
+}
+
+main {
+    margin: 0 20px;
+    padding-top: 70px;
+}
+
+.banner--container {
+    width: 100%;
+    max-height: 700px;
+    margin: 0 auto;
+    position: relative;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px 3px rgba(0,0,0,0.2);
+}
+
+.banner--container > img {
+    object-fit: cover;
+    width: 100%;
+    height: 100%;
+    max-height: 700px;
+    border-radius: 5px;
+}
+
+.banner--cover {
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(to right, rgba(0, 255, 234, 0.8), rgba(14, 255, 235, 0)); 
+    position: absolute;   
+    border-radius: 5px;
+}
+
+.banner--title {
+    color: #FFF;
+    position: absolute;
+    top: 0;
+    margin: 70px 0 0 30px;
+    font-size: 1.3em;
+    width: 200px;
+}
+
+
+
+/* Login Page Style */
+
+.popup {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 380px;
+    background-color: #FFF;
+    box-shadow: 1px 1px 5px 2px rgba(0,0,0, 0.3);
+    border-radius: 10px;
+    padding: 20px 30px;
+}
+
+.close-btn {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    width: 20px;
+    height: 20px;
+    font-size: 15px;
+    background-color: #CCC;
+    color: #FFF;
+    text-align: center;
+    line-height: 20px;
+    border-radius: 50%;
+    cursor: pointer;
+    padding-left: 1px;
+}
+
+.popup .form h2 {
+    text-align: center;
+    margin: 10px 0 20px;
+    font-size: 25px;
+}
+
+.form--input {
+    margin: 15px 0;
+}
+
+.form--input label {
+    font-size: 14px;
+}
+
+.popup input[type="email"],
+.popup input[type="password"] {
+    margin-top: 5px;
+    display: block;
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #bbb;
+    outline: none;
+    border-radius: 5px;
+}
+
+.popup input[type="checkbox"] {
+    margin-right: 5px;
+}
+
+.popup button {
+    width: 100%;
+    height: 30px;
+    border: none;
+    font-size: 15px;
+    background-color: #999;
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: 0.1s ease-in-out;
+    margin-bottom: 12px;
+}
+
+.popup button:hover {
+    transform: scale(1.02);
+}
+
+.popup .form a {
+    font-size: 13px;
+}
+
+.forgot-password {
+    float: right;
+}
