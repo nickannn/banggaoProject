@@ -1,0 +1,106 @@
+@charset "UTF-8";
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+	
+html {
+    height: 100%;
+}
+
+body {
+	margin-top: 70px;	
+}
+
+.logo-img {
+	width: 40px; 
+	margin-right: 10px;
+}
+
+.modal-content {
+	border-radius: 10px;
+}
+
+.signup--container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(125,125,125,0.15);
+    width: 50%;
+    max-width: 750px;
+    padding: 50px 10px;
+    margin: 0 auto;
+    border-radius: 10px;
+}
+
+.signup--container > h2 {
+    font-size: 30px;
+    margin-bottom: 30px;
+    letter-spacing: 0.15em;
+}
+
+.signup--container > input {
+    width: 60%;
+    margin-bottom: 20px;
+    border: none;
+    border-bottom: 2px solid rgba(0,0,0);
+    background-color: transparent;
+    padding: 10px 5px;
+    font-size: 1.03em;
+    outline: none;
+}
+
+.signup--container > input::placeholder {
+    color:rgba(0,0,0, 0.9);
+}
+
+.signup--gender {
+    margin-top: 10px;
+    margin-bottom: 40px;
+    font-weight: 500;
+}
+
+.signup--gender input[value="female"] {
+    margin-left: 25px;
+}
+
+.signup--container > button {
+    width: 60%;
+    padding: 1.05em;
+    font-size: 1.1em;
+    font-weight: 500;
+    background-color: rgba(0,0,0,0.85);
+    border: none;
+    border-radius: 10px;
+    color: #FFF;
+    cursor: pointer;
+}
+
+.signup--container > button:hover {
+    opacity: 0.9;
+}
+
+.signup--birth {
+	margin-bottom: 30px;
+}
+
+.signup--nationality {
+	margin-bottom: 30px;
+}
+
+.signup--language {
+	margin-bottom: 50px;
+}
+
+.signup--nationality, .signup--language {
+	display: flex;
+}
+
+.signup--nationality > select, .signup--language > select {
+	font-size: 1.05em;
+	padding: 3px;
+}
+

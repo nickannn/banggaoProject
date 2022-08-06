@@ -1,0 +1,39 @@
+success: function(data) {
+					console.log(data);
+					let card = "";
+					
+					$.each(data, function(i) {
+						console.log(data[i]);
+						card += '<div class="card ml-2 mb-3" style="width: 20rem;">';
+						card += '<img src="../${path}/resources/img/default.jpg" class="card-img-top" alt="room_img" />';
+						card += '</img>';
+						card += '<div class="card-body position-relative">';
+						card += '<h5 class="card-title">#Let\'s talk in English(Sample)</h5>';
+						card += '<h6 class="card-subtitle text-muted mb-2">English</h6>';
+						card += '<p class="card-text">';
+						card += '<i class="bi bi-geo-alt-fill"></i>';
+						card += '블랙업커피 서면점, 부산 부산진구 서전로10번길 41';
+						card += '</p>';
+						card += '<button type="button" class="btn btn-info position-absolute" style="font-size:1.2em;top:20px;right:10px;" data-toggle="popover" title="About this meeting" data-content="hey~~ anyone who wants to have a talk freely in English can join us!">+</button>';
+						card += '</div>';
+						card += '<ul class="list-group list-group-flush">';
+						card += '<li class="list-group-item text-muted">';
+						card += '<i class="bi bi-calendar-check-fill"></i>';
+						card += '&nbsp; 2022-07-27 <br/>';
+						card += '<i class="bi bi-clock-fill"></i>';
+						card += '&nbsp; 05:30pm';
+						card += '</li>';
+						card += '<li class="list-group-item">';
+						card += '<i class="bi bi-people-fill"></i>';
+						card += '&nbsp; 4 / 6';
+						card += '<span class="float-right" style="color:green;">available</span>';
+						card += '</li>';
+						card += '</ul>';
+						card += '<div class="card-body">';
+						card += '<button class="btn btn-primary btn-block">Join</button>';
+						card += '</div>';
+						card += '</div>';
+						$("#meeting-lists").empty();
+						$("#meeting-lists").append(card);
+					});
+				},
