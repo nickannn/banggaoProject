@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="/CSS/banggao.css">
+</head>
+<body>
+    <div class="navbar">
+        <div class="container">
+            <a class="name" href="index.html">BANGGAO</a>
+            <nav>
+            <ul class="nav">
+                <li><a href="/index.html">Home</a></li>
+                <li><a href="#">Login</a></li>
+                <li><a href="/about.html">About</a></li>
+                <li><a href="/contact.html">Contact</a></li>
+            </ul>
+        </nav>
+        </div>
+    </div>
+    <section class="hero">
+        <div class="container">
+            <div class="about-info">
+                <h1 class="title">Banggao?</h1>
+                <p class="infomation">Banggao는 한국어인 '반가워'를 영어로 표현한 단어입니다.<br>
+                                    </p>
+                                    <br>
+                
+                <h1 class="title">Who?</h1>
+                <h2 class="subtitle">어떤사람들이 쓸까요?</h2>
+                <ul>
+                    <li>
+                        한국을 좀 더 알고싶어 오래동안 체류하거나, 한국문화에 관심이 많은 외국인이나
+                    </li>
+                    <li>
+                        외국문화에 관심이 있고, 외국친구를 사귀고싶은 한국인들을 대상으로 만든 웹 사이트입니다.
+                    </li>
+                </ul>
+                <p class="infomation"></p>
+                <h1 class="title">why?</h1>
+                <h2 class="subtitle">왜 이것을 만들었나요?</h2>
+                <ul>
+                    <li>
+                        meeff같은 데이팅앱이나, Tandem같은 채팅앱이 주류있지만 한국에서 잘 활성화 되지는 않았고, 
+                        meet-up 같이 외국인들과 같이 어울릴 수 있는 웹 앱을 만들어보고자 하였습니다.
+                    </li>
+                    <li>
+                        장기적으로 한국에 체류하는 외국인들도 한국친구를 만나 한국이라는 나라를 좀 더 깊게 알고,<br>
+                        언어와 문화를 교류하며 좋은 추억을 쌓을 수 있게 도와주고 싶었습니다.
+                    </li>
+                    <li>
+                        한국인에게는 각국의 다양한 친구들과 소통하면서 더 넓은 세계를 배울 수 있게끔 발판이 되어주고 싶었습니다.
+                    </li>
+                </ul>
+                <p class="infomation"></p>
+            
+            </div>
+        </div>
+    </section>
+    <section class="member-section">
+        <h2 class="corp">🍒CHAE-LEE Corp.</h2>
+        <div class="container">
+            <ul>
+                <li>
+                    <img src="/images/person.jpg" alt="">
+                    <h3>
+                        Hyunjin Chae(CTO)
+                    </h3>
+                    <p>
+                        java, react, 이것저것만들고
+                        이것저것 구현해봤습니다.asdfasfewqfawefasdfaewfqwaefafafaefea
+                    </p>
+                </li>
+                <li>
+                    <img src="/images/person.jpg" alt="">
+                    <h3>
+                        Changho LEE
+                    </h3>
+                    <p>
+                        java, react, 이것저것만들고
+                        이것저것 구현해봤습니다.afefaefafawefasefaefafaw
+                    </p>
+                </li>
+            </ul>
+            
+
+        </div>
+    </section>
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-left">
+                <h2>Contact</h2>
+
+                <form action="">
+                    <label for="name">Name</label>
+                    <input type="text" id="name" name="name">
+
+                    <label for="message">Messgae</label>
+                    <textarea name="message" id="message" cols="30" rows="10" ></textarea>  
+
+                    <input type="submit" class="send-message-cta" value="Send Message">
+                </form>
+            </div>
+            <h1>LOCATION</h1>
+            <div id="map" style="width:500px;height:400px;"></div>
+	        <script type="text/javascript" src="//dapi.kakao.com/v2/maps/sdk.js?appkey=dc756801d930a6c20454a68bdee755a3"></script>
+            <script>
+                    var mapContainer = document.getElementById('map'), // 지도를 표시할 div 
+                    mapOption = { 
+                    center: new kakao.maps.LatLng(35.1371847, 129.0988611), // 지도의 중심좌표
+                    level: 3 // 지도의 확대 레벨
+                };
+                    var markerPosition  = new kakao.maps.LatLng(35.1371847, 129.0988611);
+// 지도를 표시할 div와  지도 옵션으로  지도를 생성합니다
+                    var map = new kakao.maps.Map(mapContainer, mapOption); 
+
+                    var marker = new kakao.maps.Marker({
+                        position: markerPosition
+                    });
+
+// 마커가 지도 위에 표시되도록 설정합니다
+                marker.setMap(map);
+            </script>
+        </div>
+        <p>주소  :  부산광역시 남구 부전동 194-7</p>
+    </section>
+    <section class="finish-section">
+        <img src="/images/freinds.jpg" alt="마무리">
+        <div class="container-finish">
+            저희 🍒CHAE-LEE는 항상 더 많은 한국인들과
+            외국인들의 소통을 위해 노력하겠습니다.
+        </div>
+    </section>
+</body>
+</html>
