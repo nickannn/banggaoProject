@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if form.instance.pk %}리뷰 수정{% else %}리뷰 작성{% endif %} - BANGGAO{% endblock %}
+
+{% block content %}
+<section class="form-section">
+    <div class="form-container">
+        <h1>{% if form.instance.pk %}리뷰 수정{% else %}리뷰 작성{% endif %}</h1>
+
+        <form method="post" class="review-edit-form">
+            {% csrf_token %}
+
+            {% for field in form %}
+            {% if not field.is_hidden %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <span class="error">{{ field.errors.0 }}</span>
+                {% endif %}
+            </div>
+            {% else %}
+            {{ field }}
+            {% endif %}
+            {% endfor %}
+
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary">{% if form.instance.pk %}수정하기{% else %}등록하기{% endif %}</button>
+                <a href="{% url 'reviews:list' %}" class="btn btn-secondary">취소</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

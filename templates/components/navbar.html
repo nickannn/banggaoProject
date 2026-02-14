@@ -1,0 +1,26 @@
+{% load static %}
+<div class="navbar">
+    <div class="container">
+        <a class="name" href="{% url 'accounts:home' %}">BANGGAO</a>
+        <nav>
+            <ul class="nav">
+                <li><a href="{% url 'accounts:home' %}">Home</a></li>
+                <li><a href="{% url 'meetings:list' %}">Meetings</a></li>
+                <li><a href="{% url 'reviews:list' %}">Reviews</a></li>
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'accounts:profile' %}">{{ user.name }}</a></li>
+                    <li>
+                        <form method="post" action="{% url 'accounts:logout' %}" class="logout-form">
+                            {% csrf_token %}
+                            <button type="submit" class="nav-link-button">Logout</button>
+                        </form>
+                    </li>
+                {% else %}
+                    <li><a href="{% url 'accounts:login' %}">Login</a></li>
+                    <li><a href="{% url 'accounts:signup' %}">Sign Up</a></li>
+                {% endif %}
+                <li><a href="{% url 'accounts:about' %}">About</a></li>
+            </ul>
+        </nav>
+    </div>
+</div>

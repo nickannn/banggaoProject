@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}About - BANGGAO{% endblock %}
+
+{% block content %}
+<section class="about-hero">
+    <h1>About <span class="highlight">BANGGAO</span></h1>
+    <p>"방가워"는 반갑다의 사투리로, 모두를 환영한다는 의미입니다.</p>
+</section>
+
+<section class="about-content">
+    <div class="about-text">
+        <h2>Our Mission</h2>
+        <p>
+            Banggao는 한국에 오래 체류하거나 한국 문화에 관심 많은 외국인들과
+            외국 문화에 관심 있고 외국 친구를 사귀고 싶은 한국인들을 위한 플랫폼입니다.
+        </p>
+        <p>
+            언어 교환, 문화 체험, 그리고 진정한 우정을 나눌 수 있는 공간을 제공합니다.
+        </p>
+    </div>
+    <div class="about-image">
+        <img src="{% static 'img/freinds.jpg' %}" alt="Friends gathering">
+    </div>
+</section>
+
+<section class="member-section">
+    <h2>Our Team</h2>
+    <p>CHAE-LEE Corp.</p>
+    <div class="members">
+        <div class="member">
+            <img src="{% static 'img/person.jpg' %}" alt="Team member">
+            <h3>Member 1</h3>
+            <p>Developer</p>
+        </div>
+        <div class="member">
+            <img src="{% static 'img/person.jpg' %}" alt="Team member">
+            <h3>Member 2</h3>
+            <p>Designer</p>
+        </div>
+    </div>
+</section>
+{% endblock %}
