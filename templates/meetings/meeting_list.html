@@ -1,0 +1,72 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Meetings - BANGGAO{% endblock %}
+
+{% block content %}
+<section class="meetings-section">
+    <div class="meetings-header">
+        <h1>Meetings</h1>
+        {% if user.is_authenticated %}
+        <a href="{% url 'meetings:create' %}" class="btn btn-primary">모임 만들기</a>
+        {% endif %}
+    </div>
+
+    <div class="meetings-filter">
+        <form method="get" class="filter-form">
+            <label for="region">지역 선택:</label>
+            <select name="region" id="region" onchange="this.form.submit()">
+                <option value="all" {% if selected_region == 'all' %}selected{% endif %}>전체</option>
+                {% for value, label in regions %}
+                <option value="{{ value }}" {% if selected_region == value %}selected{% endif %}>{{ label }}</option>
+                {% endfor %}
+            </select>
+        </form>
+    </div>
+
+    <div class="meetings-grid">
+        {% for meeting in meetings %}
+        <div class="meeting-card">
+            <div class="meeting-image">
+                {% if meeting.image %}
+                <img src="{{ meeting.image.url }}" alt="{{ meeting.title }}">
+                {% else %}
+                <img src="{% static 'img/beach.jpg' %}" alt="Default meeting image">
+                {% endif %}
+            </div>
+            <div class="meeting-content">
+                <h3><a href="{% url 'meetings:detail' meeting.pk %}">{{ meeting.title }}</a></h3>
+                <p class="meeting-meta">
+                    <span class="region">{{ meeting.get_region_display }}</span>
+                    <span class="difficulty">{{ meeting.get_difficulty_display }}</span>
+                    <span class="date">{{ meeting.meeting_date|date:"Y-m-d H:i" }}</span>
+                </p>
+                <p class="meeting-description">{{ meeting.description|truncatewords:20 }}</p>
+                <p class="meeting-info">
+                    <span class="host">주최: {{ meeting.host.name }}</span>
+                    <span class="target">대상: {{ meeting.get_target_audience_display }}</span>
+                    <span class="fee">참가비: {% if meeting.fee %}{{ meeting.fee }}원{% else %}무료{% endif %}</span>
+                    <span class="participants">{{ meeting.participant_count }}/{{ meeting.capacity }}명</span>
+                </p>
+            </div>
+        </div>
+        {% empty %}
+        <p class="no-meetings">등록된 모임이 없습니다.</p>
+        {% endfor %}
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}&region={{ selected_region }}">&laquo; 이전</a>
+        {% endif %}
+
+        <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}&region={{ selected_region }}">다음 &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

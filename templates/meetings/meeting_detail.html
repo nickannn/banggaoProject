@@ -1,0 +1,195 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{{ meeting.title }} - BANGGAO{% endblock %}
+
+{% block content %}
+<section class="meeting-detail-section">
+    <div class="meeting-detail-container">
+        <div class="meeting-detail-header">
+            <h1>{{ meeting.title }}</h1>
+            {% if is_host %}
+            <div class="meeting-actions">
+                <a href="{% url 'meetings:edit' meeting.pk %}" class="btn btn-secondary">수정</a>
+                <form method="post" action="{% url 'meetings:delete' meeting.pk %}" style="display: inline;">
+                    {% csrf_token %}
+                    <button type="submit" class="btn btn-danger" onclick="return confirm('정말 삭제하시겠습니까?')">삭제</button>
+                </form>
+            </div>
+            {% endif %}
+        </div>
+
+        <div class="meeting-detail-image">
+            {% if meeting.image %}
+            <img src="{{ meeting.image.url }}" alt="{{ meeting.title }}">
+            {% else %}
+            <img src="{% static 'img/beach.jpg' %}" alt="Default meeting image">
+            {% endif %}
+        </div>
+
+        <div class="meeting-detail-info">
+            <table class="info-table">
+                <tr>
+                    <th>주최자</th>
+                    <td>{{ meeting.host.name }}</td>
+                </tr>
+                <tr>
+                    <th>일시</th>
+                    <td>{{ meeting.meeting_date|date:"Y년 m월 d일 H:i" }}</td>
+                </tr>
+                <tr>
+                    <th>지역</th>
+                    <td>{{ meeting.get_region_display }}</td>
+                </tr>
+                <tr>
+                    <th>장소</th>
+                    <td>{{ meeting.location_name }} ({{ meeting.location_address }})</td>
+                </tr>
+                <tr>
+                    <th>사용 언어</th>
+                    <td>{{ meeting.language }}</td>
+                </tr>
+                <tr>
+                    <th>언어 비율</th>
+                    <td>{{ meeting.language_ratio|default:"-" }}</td>
+                </tr>
+                <tr>
+                    <th>모임 난이도</th>
+                    <td>{{ meeting.get_difficulty_display }}</td>
+                </tr>
+                <tr>
+                    <th>참가 대상</th>
+                    <td>{{ meeting.get_target_audience_display }}</td>
+                </tr>
+                <tr>
+                    <th>참가 인원</th>
+                    <td>{{ meeting.participant_count }} / {{ meeting.capacity }}명 ({{ meeting.available_spots }}자리 남음)</td>
+                </tr>
+                <tr>
+                    <th>참가비</th>
+                    <td>{% if meeting.fee %}{{ meeting.fee }}원{% else %}무료{% endif %}</td>
+                </tr>
+                {% if meeting.kakao_link %}
+                <tr>
+                    <th>카카오톡</th>
+                    <td><a href="{{ meeting.kakao_link }}" target="_blank">오픈채팅 참여하기</a></td>
+                </tr>
+                {% endif %}
+            </table>
+        </div>
+
+        <div class="meeting-detail-description">
+            <h2>모임 소개</h2>
+            <p>{{ meeting.description|linebreaks }}</p>
+        </div>
+
+        {% if meeting.supplies %}
+        <div class="meeting-detail-description">
+            <h2>준비물</h2>
+            <p>{{ meeting.supplies|linebreaks }}</p>
+        </div>
+        {% endif %}
+
+        {% if meeting.cancellation_policy %}
+        <div class="meeting-detail-description">
+            <h2>취소 정책</h2>
+            <p>{{ meeting.cancellation_policy|linebreaks }}</p>
+        </div>
+        {% endif %}
+
+        <div class="meeting-detail-participants">
+            <h2>참가자 ({{ meeting.participant_count }}명)</h2>
+            <ul class="participants-list">
+                <li class="host-badge">{{ meeting.host.name }} (주최자)</li>
+                {% for participant in meeting.participants.all %}
+                <li>{{ participant.name }}</li>
+                {% empty %}
+                <li class="no-participants">아직 참가자가 없습니다.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        {% if user.is_authenticated and not is_host %}
+        <div class="meeting-join-section">
+            {% if is_participant %}
+            <button id="cancelBtn" class="btn btn-danger" data-meeting-id="{{ meeting.pk }}">참가 취소</button>
+            {% else %}
+            <button id="joinBtn" class="btn btn-primary" data-meeting-id="{{ meeting.pk }}" {% if meeting.is_full %}disabled{% endif %}>
+                {% if meeting.is_full %}정원 초과{% else %}참가하기{% endif %}
+            </button>
+            {% endif %}
+        </div>
+        {% elif not user.is_authenticated %}
+        <div class="meeting-join-section">
+            <p>참가하려면 <a href="{% url 'accounts:login' %}">로그인</a>이 필요합니다.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const joinBtn = document.getElementById('joinBtn');
+    const cancelBtn = document.getElementById('cancelBtn');
+
+    function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== '') {
+            const cookies = document.cookie.split(';');
+            for (let i = 0; i < cookies.length; i++) {
+                const cookie = cookies[i].trim();
+                if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                    cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                    break;
+                }
+            }
+        }
+        return cookieValue;
+    }
+
+    if (joinBtn) {
+        joinBtn.addEventListener('click', function() {
+            const meetingId = this.dataset.meetingId;
+            fetch(`/meetings/${meetingId}/join/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.status === 1) {
+                    location.reload();
+                }
+            });
+        });
+    }
+
+    if (cancelBtn) {
+        cancelBtn.addEventListener('click', function() {
+            if (!confirm('참가를 취소하시겠습니까?')) return;
+
+            const meetingId = this.dataset.meetingId;
+            fetch(`/meetings/${meetingId}/cancel/`, {
+                method: 'POST',
+                headers: {
+                    'X-CSRFToken': getCookie('csrftoken'),
+                    'Content-Type': 'application/json',
+                },
+            })
+            .then(response => response.json())
+            .then(data => {
+                alert(data.message);
+                if (data.status === 1) {
+                    location.reload();
+                }
+            });
+        });
+    }
+});
+</script>
+{% endblock %}

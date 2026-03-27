@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}{% if form.instance.pk %}모임 수정{% else %}모임 만들기{% endif %} - BANGGAO{% endblock %}
+
+{% block content %}
+<section class="form-section">
+    <div class="form-container">
+        <h1>{% if form.instance.pk %}모임 수정{% else %}새 모임 만들기{% endif %}</h1>
+
+        <form method="post" enctype="multipart/form-data" class="meeting-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="error-message">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}{% if field.field.required %} *{% endif %}</label>
+                {{ field }}
+                {% if field.help_text %}
+                <small class="help-text">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                <span class="error">{{ field.errors.0 }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary">{% if form.instance.pk %}수정하기{% else %}만들기{% endif %}</button>
+                <a href="{% url 'meetings:list' %}" class="btn btn-secondary">취소</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}

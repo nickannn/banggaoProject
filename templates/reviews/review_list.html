@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Reviews - BANGGAO{% endblock %}
+
+{% block content %}
+<section class="reviews-section">
+    <h1>Reviews</h1>
+    <p class="reviews-subtitle">BANGGAO 이용 후기를 남겨주세요!</p>
+
+    <div class="review-form-container">
+        <h2>후기 작성</h2>
+        <form method="post" action="{% url 'reviews:create' %}" class="review-form">
+            {% csrf_token %}
+
+            {% if not user.is_authenticated %}
+            <div class="form-group">
+                <label for="id_author_name">이름</label>
+                {{ form.author_name }}
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="id_content">내용</label>
+                {{ form.content }}
+            </div>
+
+            <button type="submit" class="btn btn-primary">등록하기</button>
+        </form>
+    </div>
+
+    <div class="reviews-list">
+        <h2>이용 후기</h2>
+        <table class="reviews-table">
+            <thead>
+                <tr>
+                    <th class="col-name">작성자</th>
+                    <th class="col-content">내용</th>
+                    <th class="col-date">작성일</th>
+                    {% if user.is_authenticated %}
+                    <th class="col-actions">관리</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for review in reviews %}
+                <tr>
+                    <td class="col-name">{{ review.get_author_name }}</td>
+                    <td class="col-content">{{ review.content|linebreaks }}</td>
+                    <td class="col-date">{{ review.created_at|date:"Y-m-d" }}</td>
+                    {% if user.is_authenticated %}
+                    <td class="col-actions">
+                        {% if review.author == user or user.is_staff %}
+                        <a href="{% url 'reviews:edit' review.pk %}" class="btn-small">수정</a>
+                        <form method="post" action="{% url 'reviews:delete' review.pk %}" style="display: inline;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn-small btn-danger" onclick="return confirm('삭제하시겠습니까?')">삭제</button>
+                        </form>
+                        {% endif %}
+                    </td>
+                    {% endif %}
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="{% if user.is_authenticated %}4{% else %}3{% endif %}" class="no-reviews">
+                        아직 리뷰가 없습니다. 첫 번째 리뷰를 작성해주세요!
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}">&laquo; 이전</a>
+        {% endif %}
+
+        <span class="current">{{ page_obj.number }} / {{ page_obj.paginator.num_pages }}</span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}">다음 &raquo;</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

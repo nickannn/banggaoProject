@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Login - BANGGAO{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-container">
+        <h1>Login</h1>
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+
+            {% if form.non_field_errors %}
+            <div class="error-message">
+                {% for error in form.non_field_errors %}
+                    {{ error }}
+                {% endfor %}
+            </div>
+            {% endif %}
+
+            <div class="form-group">
+                <label for="id_username">{{ form.username.label }}</label>
+                {{ form.username }}
+                {% if form.username.errors %}
+                <span class="error">{{ form.username.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group">
+                <label for="id_password">{{ form.password.label }}</label>
+                {{ form.password }}
+                {% if form.password.errors %}
+                <span class="error">{{ form.password.errors.0 }}</span>
+                {% endif %}
+            </div>
+
+            <div class="form-group checkbox">
+                {{ form.remember_me }}
+                <label for="id_remember_me">{{ form.remember_me.label }}</label>
+            </div>
+
+            <button type="submit" class="btn btn-primary">로그인</button>
+        </form>
+
+        <p class="auth-link">
+            계정이 없으신가요? <a href="{% url 'accounts:signup' %}">회원가입</a>
+        </p>
+    </div>
+</section>
+{% endblock %}

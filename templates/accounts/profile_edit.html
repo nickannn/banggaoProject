@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Edit Profile - BANGGAO{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-container">
+        <h1>프로필 수정</h1>
+        <form method="post" enctype="multipart/form-data" class="auth-form">
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="form-group">
+                <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}
+                <span class="error">{{ field.errors.0 }}</span>
+                {% endif %}
+            </div>
+            {% endfor %}
+
+            <div class="form-buttons">
+                <button type="submit" class="btn btn-primary">저장</button>
+                <a href="{% url 'accounts:profile' %}" class="btn btn-secondary">취소</a>
+            </div>
+        </form>
+    </div>
+</section>
+{% endblock %}
